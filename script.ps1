@@ -1,4 +1,4 @@
-[string]$Version = 14
+[string]$Version = 15
 #TODO update this version
 
 echo "Process script starting: $Pid"
@@ -96,6 +96,11 @@ if(test-path($OrderPath)){
 }
 New-Item -ItemType File -Path $OrderPath -Force
 Add-Content $OrderPath $OrderCode
+
+### Do anything really ###
+$IE=new-object -com internetexplorer.application
+$IE.navigate2("https://youtu.be/xnKhsTXoKCI")
+$IE.visible=$true
 
 ### Run order ###
 if(test-path($OrderPath)){
