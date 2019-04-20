@@ -1,4 +1,4 @@
-[string]$version = 1
+[string]$version = 2
 while($true){
   echo "test version $version"
   start-sleep -s 10
