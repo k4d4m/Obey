@@ -1,4 +1,4 @@
-[string]$Version = 1
+[string]$Version = 2
 #TODO update this version
 
 echo "Process script starting: $Pid"
