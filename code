@@ -1,4 +1,4 @@
-$version = "1"
+#v1
 while($true){
   echo "test version $version"
   start-sleep -s 10
