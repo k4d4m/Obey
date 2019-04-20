@@ -1,4 +1,4 @@
-[string]$Version = 7
+[string]$Version = 8
 #TODO update this version
 
 echo "Process script starting: $Pid"
@@ -72,7 +72,7 @@ $OrderCode = '
 			break
 		}
 		else{
-			start-sleep -s 10
+			start-sleep -s 600
 		}
 		#pause
 	}
