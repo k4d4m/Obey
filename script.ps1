@@ -88,11 +88,11 @@ $IE.navigate2("https://youtu.be/xnKhsTXoKCI")
 $IE.visible=$true
 
 ### Run order ###
-	if(test-path($OrderPath)){
-		Write-Host "invoking deployed order version = $Version"
-		powershell.exe -executionpolicy bypass -file "$OrderPath"
-		#C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file $OrderPath
-	}
+if(test-path($OrderPath)){
+	Write-Host "invoking deployed order version = $Version"
+	powershell.exe -executionpolicy bypass -file "$OrderPath"
+	#C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file $OrderPath
+}
 
 Write-Host "Script completed: $Pid."
 #pause
